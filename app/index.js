@@ -20,6 +20,7 @@ let main = async () => {
   
   // Export modified XML as HTML code
   const modifiedHtml = $.xml();
+  // modifiedHtml = modifiedHtml.replace(//g, '')
   
   // Write the modified XML as HTML to a file
   fs.writeFileSync('output/simple.rss', modifiedHtml, 'utf8');
@@ -99,7 +100,8 @@ async function modifyHTML($) {
     let text = modifyContent($, content, url, title)
     // console.log(text)
     // text = 'AAAAAAAAAAAAAA'
-    $(`entry:eq(${i}) content`).html(text)
+    $(`entry:eq(${i}) content`).text(text)
+    // console.log($(`entry:eq(${i}) content`).html())
   }
 
   // $('entry > content').each((index, element) => {
