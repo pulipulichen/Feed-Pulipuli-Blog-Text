@@ -7,6 +7,11 @@ const NodeCacheSqlite = require('./NodeCacheSqlite.js')
 let browser
 
 module.exports = async function (url, options = {}) {
+
+  if ((url.endsWith('.txt') || url.endsWith('.csv')) && !options.crawler) {
+    options.crawler = 'fetch'
+  }
+
   let {
     cacheDay = 0.5, 
     encoding = null,
@@ -18,7 +23,7 @@ module.exports = async function (url, options = {}) {
     puppeteerWaitForSelectorTimeout = 30000,
   } = options
 
-  return await NodeCacheSqlite.get('GetHTML', url, async function () {
+  return await NodeCacheSqlite.get('GetHTML', url + '|' + JSON.stringify(options), async function () {
     console.log('GetHTML', url)
 
     if (crawler === 'fetch') {

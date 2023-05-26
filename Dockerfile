@@ -16,4 +16,9 @@ RUN npm link rss-parser@3.13.0
 RUN npm link feed@4.2.2
 RUN npm link @extractus/feed-extractor@6.2.2
 
+RUN npm link axios@1.4.0
+RUN npm link cheerio@1.0.0-rc.12
+
+RUN npm link htmlentities@1.0.0
+
 CMD ["node", "/app/index.js"]
