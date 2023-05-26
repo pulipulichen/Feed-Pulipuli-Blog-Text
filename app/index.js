@@ -24,7 +24,7 @@ let main = async () => {
   
   // Write the modified XML as HTML to a file
   fs.writeFileSync('output/simple.rss', modifiedHtml, 'utf8');
-  fs.writeFileSync('output/simple-20230527-0531.rss', modifiedHtml, 'utf8');
+  fs.writeFileSync('output/simple-20230527-0544.rss', modifiedHtml, 'utf8');
 }
 main()
 
