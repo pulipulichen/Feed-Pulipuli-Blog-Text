@@ -41,32 +41,78 @@ async function modifyHTML($) {
     thumbnail.attr('url', url)
   }
 
-  $('entry > content').each((index, element) => {
-    let html = $(element).html();
-    html = htmlentities.decode(html)
-    // console.log(html)
-    let text = modifyContent($, html)
+  // $('entry').each((index, entry) => {
+  //   let $entry = cheerio.load(entry)
 
-    $(element).text(text)
-  });
+  //   let url = ''
+  //   try {
+  //     url = $entry('link[rel="alternate"][type="text/html"][href]:first').attr('href')
+  //   }
+  //   catch (e) {
+  //     url = e
+  //   }
+
+  //   let title = ''
+  //   try {
+  //     title = $entry('link[rel="alternate"][type="text/html"][href]:first').attr('title')
+  //   }
+  //   catch (e) {
+  //     title = e
+  //   }
+
+  //   // console.log($entry('content').html())
+  //   let content = $entry('content').html()
+  //   content = htmlentities.decode(content)
+
+  //   let text = modifyContent($, content, url, title)
+  //   // console.log(text)    
+  //   // $entry('content').html(text)
+  // })
+  let entries = $('entry')
+  for (let i = 0; i < entries.length; i++) {
+    let entry = entries.eq(i)
+
+    let $entry = cheerio.load(entry.html()) 
+    // console.log(cheerio.load(entry.html()).html())
+
+    let url = ''
+    try {
+      url = $entry('link[rel="alternate"][type="text/html"][href]:first').attr('href')
+    }
+    catch (e) {
+      url = e
+    }
+
+    let title = ''
+    try {
+      title = $entry('link[rel="alternate"][type="text/html"][href]:first').attr('title')
+    }
+    catch (e) {
+      title = e
+    }
+
+    // console.log(title)
+    let content = $entry('content').html()
+    content = htmlentities.decode(content)
+    // console.log($entry('content').html())
+    let text = modifyContent($, content, url, title)
+    // console.log(text)
+    // text = 'AAAAAAAAAAAAAA'
+    $(`entry:eq(${i}) content`).html(text)
+  }
+
+  // $('entry > content').each((index, element) => {
+    // let html = $(element).html();
+    // html = htmlentities.decode(html)
+    // // console.log(html)
+    // let text = modifyContent($, html)
+
+    // $(element).text(text)
+  // });
 }
 
-function modifyContent($, content) {
-  let url = ''
-  try {
-    url = $('link[rel="alternate"][type="text/html"][href]:first').attr('href')
-  }
-  catch (e) {
-    url = e
-  }
-
-  let title = ''
-  try {
-    title = $('link[rel="alternate"][type="text/html"][href]:first').attr('title')
-  }
-  catch (e) {
-    title = e
-  }
+function modifyContent($, content, url, title) {
+  
 
   // ---------------
 
@@ -200,12 +246,12 @@ function modifyContent($, content) {
       text = text.slice(0, -1)
     }
 
-    // text.push('----\n<br />\n<br />看看網頁版全文 ⇨ ' + title + '\n<br />' + url)
-    text.push('看看網頁版全文 ⇨ ' + title + '\n<br />')
+    text.push('----\n<br />\n<br />看看網頁版全文 ⇨ ' + title + '\n<br />' + url)
+    // text.push('看看網頁版全文 ⇨ ' + title + '\n<br />')
   }
   else {
-    // text.push('----\n<br />\n<br />繼續閱讀 ⇨ ' + title + '\n<br />' + url)
-    text.push('繼續閱讀 ⇨ ' + title + '\n<br />')
+    text.push('----\n<br />\n<br />繼續閱讀 ⇨ ' + title + '\n<br />' + url)
+    // text.push('繼續閱讀 ⇨ ' + title + '\n<br />')
   }
   
   // ------------
