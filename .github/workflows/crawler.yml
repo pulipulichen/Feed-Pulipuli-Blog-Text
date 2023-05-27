@@ -2,7 +2,7 @@ name: Crawler
 on: 
   push:
   schedule:
-    - cron:  "0 10 * * *" # 要用臺灣時間減8小時
+    - cron:  "0 0 * * *" # 要用臺灣時間減8小時
   workflow_dispatch:
 permissions:
   contents: write
