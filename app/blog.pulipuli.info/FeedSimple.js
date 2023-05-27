@@ -103,7 +103,8 @@ function modifyContent($, container, url, title) {
     isOverflowed = true
   }
 
-  if (!isOverflowed) {
+  if (!isOverflowed && text.length > 2) {
+    // console.log(text)
     while (text[(text.length - 1)] === '----' || text[(text.length - 1)].startsWith('#')) {
       text = text.slice(0, -1)
     }
@@ -215,6 +216,8 @@ module.exports = async function () {
   let $ = await GetHTML(`https://blog.pulipuli.info/feeds/posts/default`, {
     crawler: 'xml'
   })
+
+  // console.log('not ok')
 
   FixThumbnail($)
   TravelContents($, modifyContent)

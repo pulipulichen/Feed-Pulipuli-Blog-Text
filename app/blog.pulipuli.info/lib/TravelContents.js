@@ -28,6 +28,18 @@ module.exports = function ($, callback) {
     // console.log(title)
     let content = $entry('content').html()
     content = htmlentities.decode(content)
+    // console.log(content)
+    if (!content.startsWith('<p>')) {
+      let pos = content.indexOf('<div')
+      if (pos > -1) {
+        let part1 = content.slice(0, pos)
+        let part2 = content.slice(pos)
+        content = '<p>' + part1 + '</p>' + part2
+      }
+      else {
+        content = '<p>' + content + '</p>'
+      }
+    }
     // console.log($entry('content').html())
     let container = cheerio.load(content);
     let text = callback($, container, url, title)

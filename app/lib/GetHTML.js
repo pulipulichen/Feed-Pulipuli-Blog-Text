@@ -7,7 +7,7 @@ const NodeCacheSqlite = require('./NodeCacheSqlite.js')
 
 let browser
 
-module.exports = async function (url, options = {}) {
+async function GetHTML (url, options = {}) {
 
   if ((url.endsWith('.txt') || url.endsWith('.csv')) && !options.crawler) {
     options.crawler = 'fetch'
@@ -24,8 +24,21 @@ module.exports = async function (url, options = {}) {
     puppeteerWaitForSelectorTimeout = 30000,
   } = options
 
+
+  if (crawler === 'xml') {
+    let fetchOptions = {...options}
+    fetchOptions.crawler = 'fetch'
+    let output = await GetHTML(url, fetchOptions);
+
+    let $xml = cheerio.load(output, {
+      xmlMode: true
+    })
+
+    return $xml
+  }
+
   return await NodeCacheSqlite.get('GetHTML', url + '|' + JSON.stringify(options), async function () {
-    console.log('GetHTML', url)
+    console.log('GetHTML', url, crawler)
 
     if (crawler === 'fetch') {
       const response = await fetch(url);
@@ -37,24 +50,6 @@ module.exports = async function (url, options = {}) {
         const buffer = await response.arrayBuffer()
         return iconv.decode(Buffer.from(buffer), encoding)
       }
-    }
-    else if (crawler === 'xml') {
-      const response = await fetch(url);
-
-      let output
-      if (!encoding) {
-        output = await response.text()
-      }
-      else {
-        const buffer = await response.arrayBuffer()
-        output = iconv.decode(Buffer.from(buffer), encoding)
-      }
-
-      output = cheerio.load(output, {
-        xmlMode: true
-      })
-
-      return output
     }
     else {
       if (!browser) {
@@ -91,3 +86,5 @@ module.exports = async function (url, options = {}) {
     }
   }, parseInt(cacheDay * 1000 * 60 * 60 * 24, 10))
 }
+
+module.exports = GetHTML
