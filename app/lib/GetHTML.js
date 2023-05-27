@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer')
 const fetch = require('node-fetch')
 const iconv = require('iconv-lite')
+const cheerio = require('cheerio')
 
 const NodeCacheSqlite = require('./NodeCacheSqlite.js')
 
@@ -15,7 +16,7 @@ module.exports = async function (url, options = {}) {
   let {
     cacheDay = 0.5, 
     encoding = null,
-    crawler = 'puppeteer', // fetch or puppeteer
+    crawler = 'puppeteer', // fetch or puppeteer or xml
     puppeteerArgs = ['--no-sandbox', '--disable-setuid-sandbox', '--window-size=800,600'],
     puppeteerAgent,
     puppeteerWaitUntil = `networkidle2`,
@@ -36,6 +37,24 @@ module.exports = async function (url, options = {}) {
         const buffer = await response.arrayBuffer()
         return iconv.decode(Buffer.from(buffer), encoding)
       }
+    }
+    else if (crawler === 'xml') {
+      const response = await fetch(url);
+
+      let output
+      if (!encoding) {
+        output = await response.text()
+      }
+      else {
+        const buffer = await response.arrayBuffer()
+        output = iconv.decode(Buffer.from(buffer), encoding)
+      }
+
+      output = cheerio.load(output, {
+        xmlMode: true
+      })
+
+      return output
     }
     else {
       if (!browser) {
