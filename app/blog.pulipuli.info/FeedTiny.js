@@ -1,14 +1,14 @@
-// const textLimit = 5000
-const textLimit = 1000
-const outputFilename = 'simple-20230527-0548.rss'
+const textLimit = 100
+const outputFilename = 'tiny-20230527-0548.rss'
 
 // ---------
 
-const GetHTML = require('../lib/GetHTML.js')
+const GetHTML = require('./../lib/GetHTML.js')
 const FixThumbnail = require('./lib/FixThumbnail.js')
 const TravelContents = require('./lib/TravelContents.js')
+const isURL = require('./../lib/isURL.js')
 
-const SaveXML = require('../lib/SaveXML.js')
+const SaveXML = require('./../lib/SaveXML.js')
 
 // ---------
 
@@ -63,16 +63,35 @@ let modifyContent = function ($, container, url, title) {
 
     let t = p.text().trim()
 
+    if (isURL(t)) {
+      try {
+        let domain = (new URL(t))
+        t = `[URL: ${domain.hostname}]`
+      }
+      catch (e) {
+
+      }
+    }
+
     if (tagName === 'h2') {
+      if (t.indexOf(' / ') > -1) {
+        t = t.slice(0, t.indexOf(' / '))
+      } 
       t = '# ' + t
     }
     else if (tagName === 'h3') {
+      if (t.indexOf(' / ') > -1) {
+        t = t.slice(0, t.indexOf(' / '))
+      } 
       t = '## ' + t
     }
     else if (tagName === 'h4') {
+      if (t.indexOf(' / ') > -1) {
+        t = t.slice(0, t.indexOf(' / '))
+      } 
       t = '### ' + t
     }
-
+    
     // text.push(t)
     // 20230109-1126 再分句看看
     if (t.length > 20) {
@@ -83,6 +102,7 @@ let modifyContent = function ($, container, url, title) {
         }
         return s
       }).filter(s => s !== '')
+
       text = text.concat(sentence)
     }
     else {
@@ -90,7 +110,9 @@ let modifyContent = function ($, container, url, title) {
     }
     
     if (text.join('').length > textLimit) {
-      while (text[(text.length - 1)] === '----' || text[(text.length - 1)].startsWith('#')) {
+      text = text.slice(0, -1)
+
+      while (text[(text.length - 1)].trim() === '--' || text[(text.length - 1)].trim().startsWith('#')) {
         text = text.slice(0, -1)
       }
       isOverflowed = true
@@ -103,9 +125,9 @@ let modifyContent = function ($, container, url, title) {
     isOverflowed = true
   }
 
-  if (!isOverflowed && text.length > 2) {
-    // console.log(text)
-    while (text[(text.length - 1)] === '----' || text[(text.length - 1)].startsWith('#')) {
+
+  if (!isOverflowed) {
+    while (text[(text.length - 1)].trim() === '--' || text[(text.length - 1)].trim().startsWith('#')) {
       text = text.slice(0, -1)
     }
   }
@@ -129,7 +151,7 @@ let modifyContent = function ($, container, url, title) {
     categories = categories.filter((v, i, a) => a.indexOf(v) === i)
 
     if (categories.length > 0) {
-      text.push('\n<br />----\n<br />#' + categories.join(' #'))
+      text.push('\n--\n#' + categories.join(' #'))
     }
   }
   catch (e) {
@@ -139,68 +161,11 @@ let modifyContent = function ($, container, url, title) {
 
   // -----------------
 
-  if (!isOverflowed) {
-    while (text[(text.length - 1)] === '----' || text[(text.length - 1)].startsWith('#')) {
-      text = text.slice(0, -1)
-    }
-
-    // text.push('----\n<br />\n<br />看看網頁版全文 ⇨ ' + title + '\n<br />' + url)
-    // text.push('看看網頁版全文 ⇨ ' + title + '\n<br />')
-    text.push('----\n<br />\n<br />看看網頁版全文 ⇨ ' + title + '\n<br />')
+  while (text[(text.length - 1)].trim().startsWith('----') || 
+    text[(text.length - 1)].trim().startsWith('#') || 
+    text[(text.length - 1)].trim().startsWith('[URL: ')) {
+    text = text.slice(0, -1)
   }
-  else {
-    // text.push('----\n<br />\n<br />繼續閱讀 ⇨ ' + title + '\n<br />' + url)
-    // text.push('繼續閱讀 ⇨ ' + title + '\n<br />')
-    text.push('----\n<br />\n<br />繼續閱讀 ⇨ ' + title + '\n<br />')
-  }
-  
-  // ------------
-  
-  
-  let img = container('img:first')
-  let imgSrc = img.attr('src')
-  let sizePos = imgSrc.lastIndexOf('=s')
-  if (sizePos > -1 && sizePos > imgSrc.length - 10) {
-    imgSrc = imgSrc.slice(0, sizePos) + '=s1080'
-    img.attr('src', imgSrc)
-  }
-  else {
-    imgSrc = imgSrc + '=s1080'
-    img.attr('src', imgSrc)
-  }
-
-  // imgSrc = typeof(img.length)
-
-  // imgSrc = img.parent().prop('outerHTML')
-  // imgSrc = img.eq(0).attr('src')
-  // imgSrc = img.length
-  // let img = $.find('img:first').parent()
-  text.unshift(img.prop('outerHTML'))
-
-  // ------------
-  
-  // try {
-  //   let categories = $.find('category[scheme="http://www.blogger.com/atom/ns#"][term]')
-  //   let terms = []
-  //   text.push(categories.length)
-  // }
-  // catch (e) {
-  //   text.push(e)
-  // }
-    
-  // for (let i = 0; i < categories.length; i) {
-  //   let term = categories[i].attr('term')
-  //   if (term.indexOf('/') > -1) {
-  //     term = term.slice(term.lastIndexOf('/') + 1).trim()
-  //   }
-  //   terms.push(term)
-  // }
-
-  // terms = terms.filter((v, i, a) => a.indexOf(v) === i)
-
-  // if (terms.length > 0) {
-  //   text.push('#' + terms.join(' #'))
-  // }
   
   // -------------------
 
