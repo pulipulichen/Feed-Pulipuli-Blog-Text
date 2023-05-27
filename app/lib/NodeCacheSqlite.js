@@ -1,6 +1,6 @@
 
 let enableCache = true
-// enableCache = false
+enableCache = false
 
 /* global path, __dirname, cacheClass, sequelize, databases, databaseName */
 const cachePath = '/cache/'
