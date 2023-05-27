@@ -3,7 +3,7 @@ on:
   push:
   schedule:
     - cron:  "0 10 * * *" # 要用臺灣時間減8小時
-  workflow_call:
+  workflow_dispatch:
 permissions:
   contents: write
 jobs:
