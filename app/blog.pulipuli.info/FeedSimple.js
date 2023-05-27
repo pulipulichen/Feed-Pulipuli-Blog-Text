@@ -145,11 +145,13 @@ function modifyContent($, container, url, title) {
     }
 
     // text.push('----\n<br />\n<br />看看網頁版全文 ⇨ ' + title + '\n<br />' + url)
-    text.push('看看網頁版全文 ⇨ ' + title + '\n<br />')
+    // text.push('看看網頁版全文 ⇨ ' + title + '\n<br />')
+    text.push('----\n<br />\n<br />看看網頁版全文 ⇨ ' + title + '\n<br />')
   }
   else {
     // text.push('----\n<br />\n<br />繼續閱讀 ⇨ ' + title + '\n<br />' + url)
-    text.push('繼續閱讀 ⇨ ' + title + '\n<br />')
+    // text.push('繼續閱讀 ⇨ ' + title + '\n<br />')
+    text.push('----\n<br />\n<br />繼續閱讀 ⇨ ' + title + '\n<br />')
   }
   
   // ------------
