@@ -64,12 +64,9 @@ jobs:
           mkdir -p cache
           echo `date` > cache/trigger.txt
 
-          # mkdir -p cache
-          # echo `date` > output/trigger.txt
-
       - name: main
         run: |
-          docker-compose up --build
+          docker-compose up
 
       # ----------------------------------------------------------------
 

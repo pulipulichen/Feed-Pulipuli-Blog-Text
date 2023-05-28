@@ -6,6 +6,11 @@ const cheerio = require('cheerio')
 const NodeCacheSqlite = require('./NodeCacheSqlite.js')
 
 let browser
+let browserCloseTimer
+
+let sleep = function (ms = 500) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 async function GetHTML (url, options = {}) {
 
@@ -22,8 +27,16 @@ async function GetHTML (url, options = {}) {
     puppeteerWaitUntil = `networkidle2`,
     puppeteerWaitForSelector,
     puppeteerWaitForSelectorTimeout = 30000,
+    retry = 0,
   } = options
 
+  if (retry > 10) {
+    throw Error ('GetHTML failed: ' + url)
+  }
+
+  // if (crawler === 'puppeteer') {
+  //   console.trace('GetHTML: ' + url)
+  // }
 
   if (crawler === 'xml') {
     let fetchOptions = {...options}
@@ -52,37 +65,55 @@ async function GetHTML (url, options = {}) {
       }
     }
     else {
-      if (!browser) {
-        browser = await puppeteer.launch({
-          //headless: false,
-          args: puppeteerArgs,
-          ignoreHTTPSErrors: true,
-      
-        });
-      }
+      try {
+        if (!browser) {
+          browser = await puppeteer.launch({
+            //headless: false,
+            args: puppeteerArgs,
+            ignoreHTTPSErrors: true,
+            headless: "new"
+          });
+        }
+          
+        const page = await browser.newPage();
         
-      const page = await browser.newPage();
+        if (puppeteerAgent) {
+          await page.setUserAgent(puppeteerAgent);
+        }
+          
+        await page.goto(url, {waitUntil: puppeteerWaitUntil});
+
+        if (puppeteerWaitForSelector) {
+          await page.waitForSelector(puppeteerWaitForSelector, {
+            timeout: puppeteerWaitForSelectorTimeout
+          })
+        }
+
+        let output = await page.content()
       
-      if (puppeteerAgent) {
-        await page.setUserAgent(puppeteerAgent);
-      }
+        clearTimeout(browserCloseTimer)
+        browserCloseTimer = setTimeout(async () => {
+          await browser.close();
+          browser = null
+        }, 100 * 1000)
         
-      await page.goto(url, {waitUntil: puppeteerWaitUntil});
 
-      if (puppeteerWaitForSelector) {
-        await page.waitForSelector(puppeteerWaitForSelector, {
-          timeout: puppeteerWaitForSelectorTimeout
-        })
+        await sleep(1000)
+
+        return output
       }
+      catch (e) {
+        console.error(e)
 
-      let output = await page.content()
-    
-      setTimeout(async () => {
         await browser.close();
         browser = null
-      }, 10 * 1000)
-      
-      return output
+        await sleep(3000)
+
+        retry++
+        options.retry = retry
+        console.log('Retry', options.retry, url)
+        return await GetHTML(url, options)
+      } 
     }
   }, parseInt(cacheDay * 1000 * 60 * 60 * 24, 10))
 }
