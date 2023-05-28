@@ -2,7 +2,7 @@ name: Crawler
 on: 
   push:
   schedule:
-    - cron:  "0 0 * * *" # 要用臺灣時間減8小時
+    - cron:  "0 9 * * *" # 要用臺灣時間減8小時
   workflow_dispatch:
 permissions:
   contents: write
@@ -36,12 +36,20 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      # ----------------------------------------------------------------
+      # - name: Cache Output
+      #   id: cache-output
+      #   uses: actions/cache@v3
+      #   env:
+      #     cache-name: cache-output
+      #   with:
+      #     path: output
+      #     key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('output/trigger.txt') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-build-${{ env.cache-name }}-
+      #       ${{ runner.os }}-build-
+      #       ${{ runner.os }}-
 
-      - name: Prepare Cache
-        run: |
-          mkdir -p cache
-          echo `date` > cache/trigger.txt
+      # ----------------------------------------------------------------
 
       # - name: Clean Cache
       #   run: |
@@ -50,6 +58,14 @@ jobs:
       #     docker rmi -f $(docker images -aq)
       #     docker network prune -f
       #     docker volume prune -f
+
+      - name: Prepare Cache
+        run: |
+          mkdir -p cache
+          echo `date` > cache/trigger.txt
+
+          # mkdir -p cache
+          # echo `date` > output/trigger.txt
 
       - name: main
         run: |
