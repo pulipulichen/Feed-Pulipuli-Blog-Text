@@ -1,5 +1,5 @@
 // const textLimit = 5000
-const textLimit = 500
+const textLimit = 200
 const outputFilename = 'pinterest-20230527-0548.rss'
 
 // ---------
@@ -129,7 +129,7 @@ let modifyContent = function ($, container, url, title) {
     categories = categories.filter((v, i, a) => a.indexOf(v) === i)
 
     if (categories.length > 0) {
-      text.push('\n<br />----\n<br />#' + categories.join(' #'))
+      text.push('\n----\n#' + categories.join(' #'))
     }
   }
   catch (e) {
@@ -138,7 +138,7 @@ let modifyContent = function ($, container, url, title) {
 
 
   // -----------------
-
+  // console.log('url', url)
   if (!isOverflowed) {
     while (text[(text.length - 1)] === '----' || text[(text.length - 1)].startsWith('#')) {
       text = text.slice(0, -1)
@@ -146,12 +146,14 @@ let modifyContent = function ($, container, url, title) {
 
     // text.push('----\n<br />\n<br />看看網頁版全文 ⇨ ' + title + '\n<br />' + url)
     // text.push('看看網頁版全文 ⇨ ' + title + '\n<br />')
-    text.push('----\n<br />\n<br />看看網頁版全文 ⇨ ' + title + '\n<br />')
+    // text.push('----\n\n看看網頁版全文 ⇨ ' + title + '\n')
+    text.push('----\n\n看看網頁版全文 ⇨ ' + url + '\n')
   }
   else {
     // text.push('----\n<br />\n<br />繼續閱讀 ⇨ ' + title + '\n<br />' + url)
     // text.push('繼續閱讀 ⇨ ' + title + '\n<br />')
-    text.push('----\n<br />\n<br />繼續閱讀 ⇨ ' + title + '\n<br />')
+    // text.push('----\n\n繼續閱讀 ⇨ ' + title + '\n')
+    text.push('----\n\n繼續閱讀 ⇨ ' + url + '\n')
   }
   
   // ------------
@@ -206,7 +208,7 @@ let modifyContent = function ($, container, url, title) {
 
   text = text.filter(t => (t + '').trim() !== '')
 
-  text = text.join('\n<br />')
+  text = text.join('\n')
   //console.log(text)
 
   // text = '<textarea>' + $.html() + '</textarea>' + text

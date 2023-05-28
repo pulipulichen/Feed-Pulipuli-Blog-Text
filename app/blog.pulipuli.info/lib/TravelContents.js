@@ -12,7 +12,11 @@ module.exports = function ($, callback) {
   for (let i = 0; i < entries.length; i++) {
     let entry = entries.eq(i)
 
-    let $entry = cheerio.load(entry.html()) 
+    let entryHTML = entry.html()
+    // if (type === 'rss') {
+    //   entryHTML = `<div>${entryHTML}</div>`
+    // }
+    let $entry = cheerio.load(entryHTML) 
     // console.log(cheerio.load(entry.html()).html())
 
     let url = ''
@@ -21,7 +25,14 @@ module.exports = function ($, callback) {
         url = $entry('link[rel="alternate"][type="text/html"][href]:first').attr('href')
       }
       else {
-        url = $entry('link').text().trim()
+        url = $entry('link').html().trim()
+        // console.log('TravelContents', 'url', $entry('link').length, $entry('link').text())
+        if (url === '') {
+          let pos1 = entryHTML.lastIndexOf('<link>') + 6
+          let pos2 = entryHTML.lastIndexOf('</link>')
+          url = entryHTML.slice(pos1, pos2).trim()
+        }
+        // console.log('url', url)
       }
         
     }
