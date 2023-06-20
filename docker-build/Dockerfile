@@ -1,37 +1,24 @@
 #Specify the version of nodejs.
-FROM node:12.0
+FROM buildkite/puppeteer:10.0.0
+#FROM dayyass/muse_as_service:1.1.2
 
-#Update stretch repositories
-RUN sed -i s/deb.debian.org/archive.debian.org/g /etc/apt/sources.list
-RUN sed -i 's|security.debian.org|archive.debian.org/|g' /etc/apt/sources.list
-RUN sed -i '/stretch-updates/d' /etc/apt/sources.list
+RUN npm link iconv-lite@0.6.3
 
-#Install required packages in os(It is recommended to write it as a spell)
-RUN apt-get update
-RUN apt-get install -y \
-    #Because non-root users use root privileges
-    sudo \
-    #Get tools from internet
-    wget \
-    vim \
-    apt-utils
+RUN npm link sequelize@6.7.0
+RUN npm link sqlite3@5.0.2
 
-#Creating an application directory
-RUN mkdir /app
-#Use app directory as development directory
-WORKDIR /app
+RUN npm link papaparse@5.3.2
 
-#Package in container.json and packate-lock.Make sure that two of json are copied
-#COPY .babelrc ./
-COPY postcss.config.js ./
+RUN npm link jquery@3.6.3
+RUN npm link jsdom@21.1.0
 
-CMD ["npm","run", "4.webpack-build-production"]
+RUN npm link rss-parser@3.13.0
+RUN npm link feed@4.2.2
+RUN npm link @extractus/feed-extractor@6.2.2
 
-# package.Install the package described in json.
-COPY package.json ./
-RUN npm i
+RUN npm link axios@1.4.0
+RUN npm link cheerio@1.0.0-rc.12
 
-#installed node_Copy files such as module to the container side.
-#COPY . .
+RUN npm link htmlentities@1.0.0
 
-#RUN ls /app/*
+CMD ["node", "/app/index.js"]
