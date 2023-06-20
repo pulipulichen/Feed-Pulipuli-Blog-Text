@@ -38,9 +38,13 @@
 &lt;br /&gt;# cron&#x4e0d;&#x80fd;&#x904b;&#x4f5c; / cron is not working&#x3002;
 &lt;br /&gt;https://forums.docker.com/t/cron-does-not-run-in-a-php-docker-container/103897&#x3002;
 &lt;br /&gt;&#x6839;&#x64da;&#x5927;&#x90e8;&#x5206;&#x7db2;&#x8def;&#x4e0a;&#x8aaa;&#x6cd5;&#xff0c;&#x5982;&#x679c;&#x8981;&#x5728;Docker&#x5bb9;&#x5668;&#x88e1;&#x9762;&#x7528;cron&#x505a;&#x6392;&#x7a0b;&#xff0c;&#x4e3b;&#x8981;&#x662f;&#x5728;Dockerfile&#x88e1;&#x9762;&#x5beb;&#x5165;&#x4ee5;&#x4e0b;&#x6307;&#x4ee4;&#xff1a;&#x3002;
-&lt;br /&gt;[Code...]
+&lt;br /&gt;````
+#&#xa0;&#x8907;&#x88fd;crontab&#x6a94;&#x6848;&#x5230;cron.d&#x76ee;&#x9304;COPY&#xa0;./docker/php-server/crontab&#xa0;/etc/cron.d/crontab#&#xa0;&#x8a2d;&#x5b9a;&#x57f7;&#x884c;&#x6b0a;&#x9650;RUN&#xa0;chmod&#xa0;0644&#xa0;/etc/cron.d/crontab#&#xa0;&#x555f;&#x7528;cron&#x6392;&#x7a0b;&#x4efb;&#x52d9;RUN&#xa0;crontab&#xa0;/etc/cron.d/crontab
+````
 &lt;br /&gt;&#x800c;crontab&#x7684;&#x5beb;&#x6cd5;&#x53ef;&#x4ee5;&#x53c3;&#x8003;&#x4e0b;&#x7684;&#x5beb;&#x6cd5;&#xff1a;
-&lt;br /&gt;[Code...]
+&lt;br /&gt;````
+*&#xa0;*&#xa0;*&#xa0;*&#xa0;*&#xa0;root&#xa0;php&#xa0;/var/www/artisan&#xa0;schedule:run&#xa0;&gt;&gt;&#xa0;/var/log/cron.log&#xa0;2&gt;&amp;1
+````
 &lt;br /&gt;&#x7136;&#x800c;&#xff0c;&#x6211;&#x5728;Debian bullseye&#x7248;&#x672c;&#x88e1;&#xff0c;&#x9019;&#x500b;&#x65b9;&#x6cd5;&#x4e26;&#x4e0d;&#x80fd;&#x6b63;&#x5e38;&#x904b;&#x4f5c;&#x3002;
 &lt;br /&gt;&#x6211;&#x6709;&#x78ba;&#x8a8d;cron&#x7684;&#x78ba;&#x6709;&#x8f09;&#x5165;&#x6211;&#x7684;&#x8a2d;&#x5b9a;&#xff0c;&#x4f46;cron&#x5c31;&#x662f;&#x4e0d;&#x80fd;&#x5728;&#x6211;&#x8a2d;&#x5b9a;&#x7684;&#x6642;&#x9593;&#x5167;&#x6b63;&#x5e38;&#x904b;&#x4f5c;&#x3002;
 &lt;br /&gt;https://pypi.org/project/python-crontab/&#x3002;
@@ -57,12 +61,6 @@
 &lt;br /&gt;&#x8981;&#x5b8c;&#x6210;&#x9019;&#x500b;&#x4efb;&#x52d9;&#xff0c;&#x6211;&#x5011;&#x6709;&#x5169;&#x968e;&#x6bb5;&#x8a2d;&#x5b9a;&#x9700;&#x8981;&#x9032;&#x884c;&#x3002;
 &lt;br /&gt;## &#x8173;&#x672c; / Script
 &lt;br /&gt;&#x7b2c;&#x4e00;&#x500b;&#x968e;&#x6bb5;&#x662f;&#x662f;&#x5efa;&#x7acb;&#x6211;&#x5011;&#x7684;&#x6392;&#x7a0b;&#x8173;&#x672c;cron.sh&#x3002;
-&lt;br /&gt;&#x8acb;&#x5c07;&#x4ee5;&#x4e0b;&#x7a0b;&#x5f0f;&#x78bc;&#x5132;&#x5b58;&#x5230;/cron.sh&#x4e2d;&#xff0c;&#x8a18;&#x5f97;&#x958b;&#x555f;&#x57f7;&#x884c;&#x6b0a;&#x9650;(chmod +x cron.sh)&#xff0c;&#x7a0b;&#x5f0f;&#x78bc;&#x5167;&#x5bb9;&#x5982;&#x4e0b;&#xff1a;&#x3002;
-&lt;br /&gt;[Code...]
-&lt;br /&gt;cron.sh&#x7684;&#x539f;&#x7406;&#x5f88;&#x7c21;&#x55ae;&#xff0c;&#x9996;&#x5148;&#x7528;while&#x57f7;&#x884c;&#x7121;&#x9650;&#x8ff4;&#x5708;&#x3002;
-&lt;br /&gt;&#x8ff4;&#x5708;&#x958b;&#x982d;&#x6703;&#x5148;&#x7528;sleep&#x7b49;&#x5f85;30&#x79d2;&#x3002;
-&lt;br /&gt;30&#x79d2;&#x4e4b;&#x5f8c;&#x518d;&#x8f38;&#x51fa;&#x73fe;&#x5728;&#x7684;&#x6642;&#x9593;(echo `date`)&#x5230;/tmp/date.txt&#x6a94;&#x6848;&#x4e2d;&#x3002;
-&lt;br /&gt;&#x5118;&#x7ba1;&#x8a8d;&#x771f;&#x7684;&#x8a71;&#x4e5f;&#x53ef;&#x4ee5;&#x5beb;&#x7684;&#x50cf;&#x662f;crontab&#x90a3;&#x6a23;&#xff0c;&#x6bcf;&#x5206;&#x9418;&#x90fd;&#x6aa2;&#x67e5;&#x4e00;&#x6b21;&#x5206;&#x9418;&#x3001;&#x5c0f;&#x6642;&#x3001;&#x5929;&#x3001;&#x6708;&#x3001;&#x9031;&#xff0c;&#x4f46;&#x5927;&#x591a;&#x6642;&#x5019;&#x6211;&#x53ea;&#x662f;&#x8981;&#x4e00;&#x6bb5;&#x6642;&#x9593;&#x5f8c;&#x57f7;&#x884c;&#x67d0;&#x500b;&#x8173;&#x672c;&#x800c;&#x5df2;&#x3002;
 &lt;br /&gt;----
 &lt;br /&gt;
 &lt;br /&gt;&#x7e7c;&#x7e8c;&#x95b1;&#x8b80; &#x21e8; &#x5728;Docker&#x4e2d;&#x5b9a;&#x671f;&#x57f7;&#x884c;&#x6307;&#x4ee4; : Run a Scheduled Job Inside a Docker Container
@@ -83,36 +81,41 @@
 &lt;br /&gt;&#x77e5;&#x9053;&#x7684;&#x4eba;&#x53ef;&#x4ee5;&#x5e6b;&#x5fd9;&#x5728;&#x4e0b;&#x9762;&#x7559;&#x8a00;&#x544a;&#x77e5;&#x55ce;&#xff1f;&#x3002;
 &lt;br /&gt;# &#x5b89;&#x88dd; / Installation
 &lt;br /&gt;&#x5728;&#x5b89;&#x88dd;tmpmail&#x4e4b;&#x524d;&#xff0c;&#x5fc5;&#x9808;&#x5148;&#x5b89;&#x88dd;tmpmail&#x4f7f;&#x7528;&#x7684;&#x5957;&#x4ef6;&#xff1a;&#x3002;
-&lt;br /&gt;[Code...]
+&lt;br /&gt;````
+apt-get&#xa0;install&#xa0;jq&#xa0;w3m&#xa0;xclip curl&#xa0;-y
+````
 &lt;br /&gt;&#x7136;&#x5f8c;&#x7528;&#x4ee5;&#x4e0b;&#x6307;&#x4ee4;&#x5b89;&#x88dd;&#xff1a;
-&lt;br /&gt;[Code...]
+&lt;br /&gt;````
+curl&#xa0;-L&#xa0;&quot;https://git.io/tmpmail&quot;&#xa0;&gt;&#xa0;tmpmail&#xa0;&amp;&amp;&#xa0;chmod&#xa0;+x&#xa0;tmpmail
+````
 &lt;br /&gt;&#x9019;&#x6a23;&#x5c31;&#x5b8c;&#x6210;&#x4e86;&#x3002;
 &lt;br /&gt;# &#x4f7f;&#x7528; / Usage
 &lt;br /&gt;&#x4f7f;&#x7528;tmpmail&#x7684;&#x6307;&#x4ee4;&#x5982;&#x4e0b;&#x3002;
 &lt;br /&gt;&#x7531;&#x65bc;&#x6211;&#x5011;&#x6c92;&#x6709;&#x628a;tmpmail&#x653e;&#x5728;/usr/bin&#x88e1;&#x9762;&#xff0c;&#x5b83;&#x5fc5;&#x9808;&#x8981;&#x6307;&#x5b9a;&#x8def;&#x5f91;&#x4f86;&#x57f7;&#x884c;&#x624d;&#x884c;&#xff0c;&#x6240;&#x4ee5;&#x4e0d;&#x53ef;&#x4ee5;&#x5ffd;&#x7565;&#x524d;&#x9762;&#x7684;&#x300c;./&#x300d;&#x3002;
-&lt;br /&gt;[Code...]
+&lt;br /&gt;````
+./tmpmail&#xa0;--generate
+````
 &lt;br /&gt;&#x63a5;&#x8457;&#x5c31;&#x6703;&#x8dd1;&#x51fa;&#x4e00;&#x4e32;&#x96fb;&#x5b50;&#x90f5;&#x4ef6;&#x5730;&#x5740;&#xff0c;&#x4f8b;&#x5982;&#xff1a;
 &lt;br /&gt;(&#x5716;&#x7247;&#x4f86;&#x6e90;&#xff1a;Make Use Of)
 &lt;br /&gt;&#x9019;&#x6a23;&#x5c31;&#x5b8c;&#x6210;&#x56c9;&#x3002;
 &lt;br /&gt;&#x5982;&#x679c;&#x60f3;&#x8981;&#x5728;Bash&#x88e1;&#x9762;&#xff0c;&#x5c07;tmpmail&#x7684;&#x7d50;&#x679c;&#x50b3;&#x5165;&#x8b8a;&#x6578;&#x7684;&#x8a71;&#xff0c;&#x53ef;&#x4ee5;&#x7528;&#x4ee5;&#x4e0b;&#x7684;&#x6307;&#x4ee4;&#xff1a;&#x3002;
-&lt;br /&gt;[Code...]
-&lt;br /&gt;&#x5b8c;&#x6210;&#x3002;
-&lt;br /&gt;----
-&lt;br /&gt;&#x672c;&#x6b21;&#x7684;&#x554f;&#x984c;&#x662f;&#xff1a;&#x4f60;&#x6709;&#x7528;&#x904e;&#x81e8;&#x6642;&#x6027;&#x96fb;&#x5b50;&#x90f5;&#x4ef6;&#x55ce;&#xff1f;&#x4f60;&#x90fd;&#x662f;&#x7528;&#x5b83;&#x4f86;&#x505a;&#x4ec0;&#x9ebc;&#x5462;&#xff1f;&#x3002;
-&lt;br /&gt;&#x4e0b;&#x9762;&#x7559;&#x8a00;&#x5594;&#xff01;
 &lt;br /&gt;----
 &lt;br /&gt;
-&lt;br /&gt;&#x770b;&#x770b;&#x7db2;&#x9801;&#x7248;&#x5168;&#x6587; &#x21e8; &#x7528;&#x6307;&#x4ee4;&#x53d6;&#x5f97;&#x81e8;&#x6642;&#x96fb;&#x5b50;&#x90f5;&#x4ef6;&#x5730;&#x5740; : Generate Temporary Email Addresses in Linux Terminal
+&lt;br /&gt;&#x7e7c;&#x7e8c;&#x95b1;&#x8b80; &#x21e8; &#x7528;&#x6307;&#x4ee4;&#x53d6;&#x5f97;&#x81e8;&#x6642;&#x96fb;&#x5b50;&#x90f5;&#x4ef6;&#x5730;&#x5740; : Generate Temporary Email Addresses in Linux Terminal
 &lt;br /&gt;https://blog.pulipuli.info/2023/04/blog-post_427.html</content><link rel="replies" type="application/atom+xml" href="https://blog.pulipuli.info/feeds/8558516111885156850/comments/default" title="&#x5f35;&#x8cbc;&#x7559;&#x8a00;"/><link rel="replies" type="text/html" href="https://blog.pulipuli.info/2023/04/blog-post_427.html#comment-form" title="0 &#x500b;&#x610f;&#x898b;"/><link rel="edit" type="application/atom+xml" href="https://www.blogger.com/feeds/16607461/posts/default/8558516111885156850"/><link rel="self" type="application/atom+xml" href="https://www.blogger.com/feeds/16607461/posts/default/8558516111885156850"/><link rel="alternate" type="text/html" href="https://blog.pulipuli.info/2023/04/blog-post_427.html" title="&#x7528;&#x6307;&#x4ee4;&#x53d6;&#x5f97;&#x81e8;&#x6642;&#x96fb;&#x5b50;&#x90f5;&#x4ef6;&#x5730;&#x5740; : Generate Temporary Email Addresses in Linux Terminal"/><author><name>&#x5e03;&#x4e01;&#x5e03;&#x4e01;&#x5403;&#x5e03;&#x4e01;</name><uri>http://www.blogger.com/profile/18000418899714977849</uri><email>noreply@blogger.com</email><gd:image rel="http://schemas.google.com/g/2005#thumbnail" width="32" height="32" src="//blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiDRiGjXxb_0kiyEqYA7ZEEW2cs23aUDhQXzDL3eNaMED2nWK4vBuqBKCb9Sgo6j2Aq_pkw3ZicMH7hhZih1WHog9QH_w6Ta3DxtQXA1BA2_0r6gzJ3_h2-vidsMPXDdYU/s1600/1422855-big2.jpg"/></author><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blogger.googleusercontent.com/img/a/AVvXsEj8shaDQzyBlunUSXvO9ZSsMklX1ClgVY9LJWy8lZX6LcU_V3t13a0EohLsLkQpjvJMWfawS9vYFmk6xQQSpCKSz41A0L7E94CMZEt3xBFHlvoCpOKIlkUkT6jqQj1kzHQLj2IEg14JDxn8p0A9rJgGuUB6KJ8uGgsY4-7f5mUzRUE9XqPYIWg"/><thr:total>0</thr:total></entry><entry><id>tag:blogger.com,1999:blog-16607461.post-8904368031641132104</id><published>2023-06-14T12:00:00.004+08:00</published><updated>2023-06-14T12:00:00.182+08:00</updated><category scheme="http://www.blogger.com/atom/ns#" term="Linux"/><category scheme="http://www.blogger.com/atom/ns#" term="nano"/><category scheme="http://www.blogger.com/atom/ns#" term="term"/><title type="text">&#x7528;nano&#x7de8;&#x8f2f;&#x6a94;&#x6848;&#x6642;&#x767c;&#x751f;&#x300c;Error opening terminal: unknown.&#x300d;&#x932f;&#x8aa4; : &quot;Error opening terminal: unknown.&quot; Error Occurs When Editing Files With Nano Editor</title><content type="html">&lt;img src=&quot;https://blogger.googleusercontent.com/img/a/AVvXsEjMLnf0HwmxLR8w0wG9jysgqTuQ0Fhm9lQQx4gvomhJUpbC0YfIOdLNeo5e-WfDErD4hgrFmStM24WhgIFXBIjjJpAmxm67dQ7LEV-iquS1fKBWa-OQ1qQ4Ycts5JelSmxmLdx87j3-Lfw8W57UhI14WLSyIkZ5opQHIdHAwnMY_ll4XzmGAFc=s1080&quot; title=&quot;2023-0409-163226.png&quot; alt=&quot;2023-0409-163226.png&quot; class=&quot;original-size&quot;&gt;
 &lt;br /&gt;&#x8acb;&#x57f7;&#x884c;&#x6307;&#x4ee4;&#x300c;export TERM=&quot;xterm-256color&quot;&#x300d;&#x3002;
 &lt;br /&gt;----
 &lt;br /&gt;# nano&#x7de8;&#x8f2f;&#x5668; / nano editor&#x3002;
 &lt;br /&gt;&#x6700;&#x8fd1;&#x5728;Fedora 18&#x8ddf;CentOS 8&#x8981;&#x7528;nano&#x7de8;&#x8f2f;&#x6a94;&#x6848;&#x7684;&#x6642;&#x5019;&#x4e00;&#x76f4;&#x51fa;&#x73fe;&#x4ee5;&#x4e0b;&#x932f;&#x8aa4;&#x8a0a;&#x606f;&#xff1a;&#x3002;
-&lt;br /&gt;[Code...]
+&lt;br /&gt;````
+Error&#xa0;opening&#xa0;terminal:&#xa0;unknown.
+````
 &lt;br /&gt;https://serverfault.com/a/1113861&#x3002;
 &lt;br /&gt;&#x9019;&#x662f;&#x56e0;&#x70ba;&#x6c92;&#x6709;&#x8a2d;&#x5b9a;TERM&#x74b0;&#x5883;&#x8b8a;&#x6578;&#xff0c;&#x5c0e;&#x81f4;nano&#x4e0d;&#x77e5;&#x9053;&#x8981;&#x7528;&#x4ec0;&#x9ebc;&#x6a23;&#x7684;&#x4e2d;&#x65b7;&#x72c0;&#x614b;&#x4f86;&#x958b;&#x555f;&#x3002;
 &lt;br /&gt;&#x6839;&#x64da;Robert Longson&#x7684;&#x5efa;&#x8b70;&#xff0c;&#x5c07;&#x4ee5;&#x4e0b;&#x9019;&#x884c;&#x8a2d;&#x5b9a;&#x52a0;&#x5165;&#x5230;&#x300c;~/.profile&#x300d;&#x53ef;&#x89e3;&#x6c7a;&#x6b64;&#x554f;&#x984c;&#xff1a;&#x3002;
-&lt;br /&gt;[Code...]
+&lt;br /&gt;````
+export&#xa0;TERM=&quot;xterm-256color&quot;
+````
 &lt;br /&gt;&#x55ae;&#x7d14;&#x57f7;&#x884c;&#x6b64;&#x6307;&#x4ee4;&#xff0c;&#x4e5f;&#x80fd;&#x8b93;nano&#x66ab;&#x6642;&#x53ef;&#x4ee5;&#x6b63;&#x5e38;&#x904b;&#x4f5c;&#x3002;
 &lt;br /&gt;&#x6210;&#x529f;&#x3002;
 &lt;br /&gt;----
@@ -202,12 +205,10 @@
 &lt;br /&gt;&#x6aa2;&#x67e5;&#x7684;&#x65b9;&#x6cd5;&#x53ef;&#x4ee5;&#x7528;nslookup&#x3002;
 &lt;br /&gt;nslookup&#x5728;Debian&#x4e2d;&#x5305;&#x542b;&#x5728;&#x300c;dnsutils&#x300d;&#x5957;&#x4ef6;&#x88e1;&#x9762;&#x3002;
 &lt;br /&gt;&#x5b89;&#x88dd;&#x65b9;&#x5f0f;&#x5982;&#x4e0b;&#xff1a;&#x3002;
-&lt;br /&gt;[Code...]
+&lt;br /&gt;````
+apt-get&#xa0;install&#xa0;-y&#xa0;dnsutils
+````
 &lt;br /&gt;&#x4f7f;&#x7528;nslookup&#x6aa2;&#x67e5;blog.pulipuli.info&#x7684;&#x8a9e;&#x6cd5;&#x5982;&#x4e0b;&#xff1a;&#x3002;
-&lt;br /&gt;[Code...]
-&lt;br /&gt;&#x5982;&#x679c;&#x6709;&#x6b63;&#x5e38;&#x8a3b;&#x518a;&#xff0c;nslookup&#x56de;&#x50b3;&#x7684;&#x8a0a;&#x606f;&#x5982;&#x4e0b;&#xff1a;&#x3002;
-&lt;br /&gt;[Code...]
-&lt;br /&gt;&#x63db;&#x500b;&#x4f8b;&#x5b50;&#x4f86;&#x8aaa;&#x3002;
 &lt;br /&gt;----
 &lt;br /&gt;
 &lt;br /&gt;&#x7e7c;&#x7e8c;&#x95b1;&#x8b80; &#x21e8; &#x5224;&#x65b7;&#x57df;&#x540d;&#x662f;&#x5426;&#x9069;&#x5408;&#x7533;&#x8acb;Let&apos;s Encrypt&#x6191;&#x8b49;&#x7684;&#x601d;&#x8def; :&#xa0;How to Judge Whether a Domain Name Is Suitable for Applying for Let&apos;s Encrypt&#xa0;Certificate
@@ -244,28 +245,25 @@
 &lt;br /&gt;&#x5148;&#x9078;&#x64c7;&#x300c;Android TV: ADB command&#x300d;&#xff0c;&#x518d;&#x9078;&#x64c7;&#x8981;&#x64cd;&#x63a7;&#x7684;&#x88dd;&#x7f6e;&#xff0c;&#x7136;&#x5f8c;&#x5c31;&#x53ef;&#x4ee5;&#x5728;&#x4e0b;&#x9762;Command&#x6b04;&#x4f4d;&#x8a2d;&#x5b9a;&#x6307;&#x4ee4;&#x3002;
 &lt;br /&gt;&#x5e38;&#x7528;&#x7684;&#x6307;&#x4ee4;&#x6709;&#xff1a;
 &lt;br /&gt;&#x56de;&#x5230;&#x9996;&#x9801; (&#x611f;&#x8b1d;Ken Fehling)&#xff1a;&#x3002;
-&lt;br /&gt;[Code...]
+&lt;br /&gt;````
+am&#xa0;start&#xa0;-a&#xa0;android.intent.action.MAIN&#xa0;-c&#xa0;android.intent.category.HOME
+````
 &lt;br /&gt;&#x958b;&#x555f;&#x6307;&#x5b9a;&#x7684;&#x61c9;&#x7528;&#x7a0b;&#x5f0f;&#x53ca;&#x5176;activity (&#x9019;&#x500b;&#x4f8b;&#x5b50;&#x662f;&#x96fb;&#x8996;&#x7248;&#x7684;&#x5df4;&#x54c8;&#x59c6;&#x7279;&#x52d5;&#x756b;&#x760b;)&#xff1a;&#x3002;
-&lt;br /&gt;[Code...]
+&lt;br /&gt;````
+adb&#xa0;shell&#xa0;am&#xa0;start&#xa0;-n&#xa0;tw.com.gamer.android.animad/tw.com.gamer.android.animad.tv.ui.TVAnimadActivity
+````
 &lt;br /&gt;https://www.reddit.com/r/homeassistant/comments/kidma5/comment/ghlqdp4/?utm_source=share&amp;utm_medium=web2x&amp;context=3&#x3002;
 &lt;br /&gt;&#x4ee5;&#x4e0b;&#x662f;&#x958b;&#x555f;YouTube Kid&#x7684;&#x505a;&#x6cd5;&#xff1a;
-&lt;br /&gt;[Code...]
+&lt;br /&gt;````
+adb shell am&#xa0;start&#xa0;-a&#xa0;android.intent.action.VIEW&#xa0;-d&#xa0;-n&#xa0;com.google.android.youtube.tvkids/com.google.android.apps.youtube.tvkids.activity.MainActivity
+````
 &lt;br /&gt;https://stackoverflow.com/a/13212310&#x3002;
 &lt;br /&gt;&#x5982;&#x679c;&#x60f3;&#x8981;&#x67e5;&#x8a62;&#x73fe;&#x5728;&#x756b;&#x9762;&#x7684;&#x61c9;&#x7528;&#x7a0b;&#x5f0f;&#x540d;&#x5b57;&#x4ee5;&#x53ca;activity&#x540d;&#x5b57;&#xff0c;&#x8acb;&#x7528;&#x5176;&#x4ed6;&#x96fb;&#x8166;&#x9023;&#x4e0a;Android TV&#x7684;ADB&#xff0c;&#x7136;&#x5f8c;&#x57f7;&#x884c;&#x4ee5;&#x4e0b;&#x6307;&#x4ee4;&#x4f86;&#x67e5;&#x8a62;&#xff1a;&#x3002;
-&lt;br /&gt;[Code...]
+&lt;br /&gt;````
+adb&#xa0;shell&#xa0;dumpsys&#xa0;window&#xa0;windows&#xa0;|&#xa0;grep&#xa0;-E&#xa0;&apos;mCurrentFocus|mFocusedApp&apos;
+````
 &lt;br /&gt;https://stackoverflow.com/a/3512723&#x3002;
 &lt;br /&gt;&#x958b;&#x555f;&#x7db2;&#x9801;&#xff1a;
-&lt;br /&gt;[Code...]
-&lt;br /&gt;&#x96d6;&#x7136;&#x53ef;&#x4ee5;&#x986f;&#x793a;&#xff0c;&#x4f46;&#x8981;&#x64cd;&#x4f5c;&#x7684;&#x8a71;&#x5c31;&#x6bd4;&#x8f03;&#x9ebb;&#x7169;&#x4e86;&#x3002;
-&lt;br /&gt;# &#x95dc;&#x9589;&#x5fae;&#x5149;&#x6a21;&#x5f0f;
-&lt;br /&gt;https://www.ptt.cc/bbs/Google/M.1642944467.A.C7F.html&#x3002;
-&lt;br /&gt;&#x5982;&#x679c;Android TV&#x8b8a;&#x6210;&#x5f85;&#x6a5f;&#x7684;&#x5fae;&#x5149;&#x6a21;&#x5f0f;&#xff0c;&#x90a3;&#x4e0a;&#x9762;&#x7684;ADB&#x6307;&#x4ee4;&#x5c31;&#x4e0d;&#x6703;&#x904b;&#x4f5c;&#x3002;
-&lt;br /&gt;&#x6839;&#x64da;myelf541&#x7684;&#x5efa;&#x8b70;&#xff0c;&#x53ef;&#x4ee5;&#x5728;&#x958b;&#x767c;&#x8005;&#x8a2d;&#x5b9a;&#x88e1;&#x9762;&#x8a2d;&#x5b9a;&#x6c38;&#x4e0d;&#x4f11;&#x7720;&#x3002;
-&lt;br /&gt;&#x76ee;&#x524d;&#x904b;&#x4f5c;&#x8d77;&#x4f86;&#x9084;&#x7b97;&#x9806;&#x5229;&#x3002;
-&lt;br /&gt;# &#x958b;&#x555f;YouTube&#x5f71;&#x7247; / Play YouTube Video&#x3002;
-&lt;br /&gt;https://www.home-assistant.io/integrations/cast/&#x3002;
-&lt;br /&gt;&#x5982;&#x679c;&#x8981;&#x8b93;Android TV&#x958b;&#x555f;YouTube&#x5f71;&#x7247;&#x7684;&#x8a71;&#xff0c;&#x4f3c;&#x4e4e;&#x4e0d;&#x80fd;&#x55ae;&#x7d14;&#x7528;ADB&#x64cd;&#x63a7;&#x3002;
-&lt;br /&gt;&#x53e6;&#x4e00;&#x500b;&#x601d;&#x8def;&#x662f;&#x7528;Android TV&#x5167;&#x5efa;&#x7684;Chromecast&#x529f;&#x80fd;&#xff0c;&#x7528;&#x6295;&#x653e;&#x7684;&#x65b9;&#x5f0f;&#x958b;&#x555f;YouTube&#x5f71;&#x7247;&#x3002;
 &lt;br /&gt;----
 &lt;br /&gt;
 &lt;br /&gt;&#x7e7c;&#x7e8c;&#x95b1;&#x8b80; &#x21e8; &#x7528;Home Assistant&#x64cd;&#x63a7;Android TV : Use Home Assistant to Control Android TV with ADB Commands
@@ -451,12 +449,16 @@
 &lt;br /&gt;&#x6211;&#x901a;&#x5e38;&#x62ff;&#x5b83;&#x639b;&#x8f09;Google Drive&#x3001;OneDrive&#x8ddf;WebDAV&#xff0c;&#x975e;&#x5e38;&#x597d;&#x7528;&#x3002;
 &lt;br /&gt;# &#x8b93;&#x5176;&#x4ed6;&#x4eba;&#x4f7f;&#x7528;rclone&#x639b;&#x8f09;&#x7684;&#x8cc7;&#x6599;&#x593e; / Let others access the directory mounted by rclone&#x3002;
 &lt;br /&gt;&#x4e00;&#x822c;&#x60c5;&#x6cc1;&#x4e0b;&#xff0c;&#x53ea;&#x8981;&#x8a2d;&#x5b9a;&#x597d;rclone&#x7684;&#x639b;&#x8f09;&#x5c0d;&#x8c61;&#x5f8c;&#xff0c;&#x6211;&#x5011;&#x5c31;&#x80fd;&#x7528;&#x4ee5;&#x4e0b;&#x6307;&#x4ee4;&#x9032;&#x884c;&#x639b;&#x8f09;&#xff1a;&#x3002;
-&lt;br /&gt;[Code...]
+&lt;br /&gt;````
+rclone&#xa0;mount&#xa0;--daemon&#xa0;[REMOTE]:&#xa0;[PATH-TO-MOUNT]
+````
 &lt;br /&gt;&#x4e0d;&#x904e;&#xff0c;&#x6709;&#x4e9b;&#x60c5;&#x6cc1;&#x4e0b;&#xff0c;&#x6211;&#x5011;&#x6703;&#x5e0c;&#x671b;&#x639b;&#x8f09;&#x7684;&#x8cc7;&#x6599;&#x593e;&#x7d66;&#x5176;&#x4ed6;&#x4eba;&#x4f7f;&#x7528;&#x3002;
 &lt;br /&gt;&#x4f8b;&#x5982;&#x6211;&#x7528;root&#x5e33;&#x865f;&#x639b;&#x8f09;&#x4e86;&#x8cc7;&#x6599;&#x593e;&#xff0c;&#x63d0;&#x4f9b;&#x7d66;&#x7db2;&#x9801;&#x4f3a;&#x670d;&#x5668;&#x7684;&#x4f7f;&#x7528;&#x8005;www-data&#x4f7f;&#x7528;&#xff0c;&#x8b93;&#x6211;&#x5011;&#x53ef;&#x4ee5;&#x76f4;&#x63a5;&#x5728;&#x7db2;&#x9801;&#x7cfb;&#x7d71;&#x4e2d;&#x5b58;&#x53d6;&#x6211;&#x639b;&#x8f09;&#x7684;&#x9060;&#x7aef;&#x8cc7;&#x6599;&#x3002;
 &lt;br /&gt;https://rclone.org/commands/rclone_mount/#options&#x3002;
 &lt;br /&gt;&#x9019;&#x6642;&#x5019;&#x9700;&#x8981;&#x52a0;&#x5165;&#x9078;&#x9805;&#x300c;--alow-other&#x300d;&#xff0c;&#x65bc;&#x662f;&#x6307;&#x4ee4;&#x8b8a;&#x6210;&#x5982;&#x4e0b;&#xff1a;&#x3002;
-&lt;br /&gt;[Code...]
+&lt;br /&gt;````
+rclone&#xa0;mount&#xa0;--daemon --allow-other&#xa0;[REMOTE]:&#xa0;[PATH-TO-MOUNT]
+````
 &lt;br /&gt;&#x9019;&#x6a23;&#x5c31;&#x53ef;&#x4ee5;&#x4e86;&#x3002;
 &lt;br /&gt;----
 &lt;br /&gt;&#x4f60;&#x6709;&#x7528;&#x904e;&#x985e;&#x4f3c;rclone&#x7684;&#x639b;&#x8f09;&#x5de5;&#x5177;&#x55ce;&#xff1f;
@@ -477,7 +479,9 @@
 &lt;br /&gt;https://stackoverflow.com/a/70470266&#x3002;
 &lt;br /&gt;Tamal Chowdhury&#x5c0d;&#x9019;&#x500b;&#x554f;&#x984c;&#x63d0;&#x51fa;&#x4e86;&#x5f88;&#x597d;&#x7684;&#x89e3;&#x6cd5;&#xff0c;&#x90a3;&#x5c31;&#x662f;&#x4f7f;&#x7528;filter&#x4e2d;&#x7684;drop-shadow&#x3002;
 &lt;br /&gt;&#x8209;&#x4f8b;&#x4f86;&#x8aaa;&#xff0c;&#x4ee5;&#x4e0b;&#x8a9e;&#x6cd5;&#x6703;&#x70ba;&#x5716;&#x7247;&#x52a0;&#x4e0a;&#x5bec;&#x5ea6;&#x70ba;5px&#x7684;&#x767d;&#x8272;&#x908a;&#x7de3;&#xff1a;&#x3002;
-&lt;br /&gt;[Code...]
+&lt;br /&gt;````
+img&#xa0;{&#xa0;&#xa0;filter:&#xa0;drop-shadow(5px&#xa0;0&#xa0;0&#xa0;white)&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;drop-shadow(0&#xa0;5px&#xa0;0&#xa0;white)&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;drop-shadow(-5px&#xa0;0&#xa0;0&#xa0;white)&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;drop-shadow(0&#xa0;-5px&#xa0;0&#xa0;white);}
+````
 &lt;br /&gt;https://codepen.io/pulipuli/pen/MWqzGvq&#x3002;
 &lt;br /&gt;&#x52a0;&#x5165;&#x4e4b;&#x5f8c;&#x7684;&#x6548;&#x679c;&#x5982;&#x4e0a;&#x5716;&#xff0c;&#x53ef;&#x4ee5;&#x770b;&#x5230;&#x767d;&#x908a;&#x771f;&#x7684;&#x96a8;&#x8457;&#x5716;&#x7247;&#x800c;&#x6539;&#x8b8a;&#x4e86;&#xff0c;&#x975e;&#x5e38;&#x6210;&#x529f;&#x3002;
 &lt;br /&gt;&#x4e0b;&#x6b21;&#x6709;&#x9700;&#x8981;&#x70ba;&#x5716;&#x7247;&#x52a0;&#x4e0a;&#x767d;&#x908a;&#x7684;&#x8a71;&#xff0c;&#x53ef;&#x4ee5;&#x8a66;&#x8a66;&#x770b;&#x9019;&#x62db;&#x5594;&#x3002;
@@ -497,7 +501,9 @@
 &lt;br /&gt;&#x9019;&#x500b;&#x529f;&#x80fd;&#x5728;&#x5f88;&#x591a;&#x5730;&#x65b9;&#x90fd;&#x80fd;&#x6b63;&#x5e38;&#x904b;&#x4f5c;&#xff0c;&#x4f46;&#x5076;&#x723e;&#x9084;&#x662f;&#x6703;&#x9047;&#x5230;&#x4e00;&#x4e9b;&#x7279;&#x5225;&#x7684;&#x4f8b;&#x5916;&#x3002;
 &lt;br /&gt;# TrustedHTML
 &lt;br /&gt;&#x5728;&#x6211;&#x60f3;&#x628a;GitHub&#x7684;Visual Studio Code&#x6539;&#x6210;PWA&#x7684;&#x6642;&#x5019;&#xff0c;&#x51fa;&#x73fe;&#x4e86;&#x4ee5;&#x4e0b;&#x7684;&#x932f;&#x8aa4;&#xff1a;&#x3002;
-&lt;br /&gt;[Code...]
+&lt;br /&gt;````
+VM996:1&#xa0;This&#xa0;document&#xa0;requires&#xa0;&apos;TrustedHTML&apos;&#xa0;assignment&#xa0;and&#xa0;no&#xa0;&apos;default&apos;&#xa0;policy&#xa0;for&#xa0;&apos;TrustedHTML&apos;&#xa0;has&#xa0;been&#xa0;defined.(anonymous)&#xa0;@&#xa0;VM996:1VM996:1&#xa0;Uncaught&#xa0;TypeError:&#xa0;Failed&#xa0;to&#xa0;set&#xa0;the&#xa0;&apos;innerHTML&apos;&#xa0;property&#xa0;on&#xa0;&apos;Element&apos;:&#xa0;This&#xa0;document&#xa0;requires&#xa0;&apos;TrustedHTML&apos;&#xa0;assignment&#xa0;and&#xa0;no&#xa0;&apos;default&apos;&#xa0;policy&#xa0;for&#xa0;&apos;TrustedHTML&apos;&#xa0;has&#xa0;been&#xa0;defined.&#xa0;&#xa0;&#xa0;&#xa0;at&#xa0;&lt;anonymous&gt;:1:52
+````
 &lt;br /&gt;&#x9019;&#x662f;&#x56e0;&#x70ba;&#x6b64;&#x7db2;&#x9801;&#x8a2d;&#x5b9a;&#x4e86;Content-Security-Policy&#xff0c;&#x53ea;&#x6709;&#x7279;&#x5b9a;&#x4f86;&#x6e90;&#x7684;JavaScript&#x624d;&#x80fd;&#x52d5;&#x614b;&#x6539;&#x8b8a;DOM&#x7684;&#x5167;&#x5bb9;&#x3002;
 &lt;br /&gt;&#x5982;&#x679c;&#x50cf;&#x6211;&#x984d;&#x5916;&#x64b0;&#x5beb;JavaScript&#x4f86;&#x63a7;&#x5236;&#x7db2;&#x9801;&#xff0c;&#x662f;&#x4e0d;&#x88ab;&#x5141;&#x8a31;&#x7684;&#x3002;
 &lt;br /&gt;https://web.dev/trusted-types/&#x3002;
@@ -507,14 +513,9 @@
 &lt;br /&gt;# &#x76f4;&#x63a5;&#x4fee;&#x6539;DOM / Modify DOM directly&#x3002;
 &lt;br /&gt;&#x7b54;&#x6848;&#x662f;...&#x76f4;&#x63a5;&#x4fee;&#x6539;DOM&#x3002;
 &lt;br /&gt;&#x6c92;&#x932f;&#xff0c;&#x6211;&#x8981;&#x6539;&lt;head&gt;&#x88e1;&#x9762;&#x7684;&#x5167;&#x5bb9;&#xff0c;&#x90a3;&#x5c31;&#x76f4;&#x63a5;&#x6539;&lt;head&gt;&#x88e1;&#x9762;&#x7684;&#x5167;&#x5bb9;&#x5c31;&#x597d;&#x4e86;&#xff0c;&#x4e0d;&#x7528;&#x62d0;&#x5f4e;&#x62b9;&#x89d2;&#x9084;&#x7528;JavaScript&#x4f86;&#x64cd;&#x4f5c;&#x3002;
-&lt;br /&gt;&#x96d6;&#x7136;&#x770b;&#x8d77;&#x4f86;&#x597d;&#x50cf;&#x5f88;&#x7c21;&#x55ae;&#xff0c;&#x4f46;&#x6211;&#x6bcf;&#x6b21;&#x90fd;&#x6703;&#x5fd8;&#x8a18;&#x3002;
-&lt;br /&gt;&#x9084;&#x662f;&#x8a18;&#x9304;&#x4e00;&#x4e0b;&#x597d;&#x4e86;&#x3002;
-&lt;br /&gt;----
-&lt;br /&gt;&#x4f60;&#x6709;&#x7528;&#x904e;PWA&#x55ce;&#xff1f;
-&lt;br /&gt;&#x4e0b;&#x9762;&#x7559;&#x500b;&#x8a00;&#x5427;&#x3002;
 &lt;br /&gt;----
 &lt;br /&gt;
-&lt;br /&gt;&#x770b;&#x770b;&#x7db2;&#x9801;&#x7248;&#x5168;&#x6587; &#x21e8; &#x5982;&#x4f55;&#x4fee;&#x6539;TrustedHTML&#x653f;&#x7b56;&#x9650;&#x5236;&#x7684;DOM&#xff1f; : How to Modify DOM Blocked by Trustedhtml Policy?
+&lt;br /&gt;&#x7e7c;&#x7e8c;&#x95b1;&#x8b80; &#x21e8; &#x5982;&#x4f55;&#x4fee;&#x6539;TrustedHTML&#x653f;&#x7b56;&#x9650;&#x5236;&#x7684;DOM&#xff1f; : How to Modify DOM Blocked by Trustedhtml Policy?
 &lt;br /&gt;https://blog.pulipuli.info/2023/03/blog-post_23.html</content><link rel="replies" type="application/atom+xml" href="https://blog.pulipuli.info/feeds/2396693648877722406/comments/default" title="&#x5f35;&#x8cbc;&#x7559;&#x8a00;"/><link rel="replies" type="text/html" href="https://blog.pulipuli.info/2023/03/blog-post_23.html#comment-form" title="0 &#x500b;&#x610f;&#x898b;"/><link rel="edit" type="application/atom+xml" href="https://www.blogger.com/feeds/16607461/posts/default/2396693648877722406"/><link rel="self" type="application/atom+xml" href="https://www.blogger.com/feeds/16607461/posts/default/2396693648877722406"/><link rel="alternate" type="text/html" href="https://blog.pulipuli.info/2023/03/blog-post_23.html" title="&#x5982;&#x4f55;&#x4fee;&#x6539;TrustedHTML&#x653f;&#x7b56;&#x9650;&#x5236;&#x7684;DOM&#xff1f; : How to Modify DOM Blocked by Trustedhtml Policy?"/><author><name>&#x5e03;&#x4e01;&#x5e03;&#x4e01;&#x5403;&#x5e03;&#x4e01;</name><uri>http://www.blogger.com/profile/18000418899714977849</uri><email>noreply@blogger.com</email><gd:image rel="http://schemas.google.com/g/2005#thumbnail" width="32" height="32" src="//blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiDRiGjXxb_0kiyEqYA7ZEEW2cs23aUDhQXzDL3eNaMED2nWK4vBuqBKCb9Sgo6j2Aq_pkw3ZicMH7hhZih1WHog9QH_w6Ta3DxtQXA1BA2_0r6gzJ3_h2-vidsMPXDdYU/s1600/1422855-big2.jpg"/></author><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blogger.googleusercontent.com/img/a/AVvXsEja0DSKy90Q0c-idpeRkO-CJM_8GsADMCAp9aTsB9RDnlqX9Q33FXJpiZ2tqIJ2EfcC8Ejjq3CUNpFQLqg8h8MG7dghiV2njmA9VT4iaE7u6h_4LyecmbTnhuQaXIPQsTZm4Edu5GgIUImApclXvzpAf7h36evYFbDD7umKmOtORyb0n5bldNE"/><thr:total>0</thr:total></entry><entry><id>tag:blogger.com,1999:blog-16607461.post-6244490908985716314</id><published>2023-05-14T20:26:00.001+08:00</published><updated>2023-05-14T20:26:14.120+08:00</updated><category scheme="http://www.blogger.com/atom/ns#" term="AIart"/><category scheme="http://www.blogger.com/atom/ns#" term="LatentCouple"/><category scheme="http://www.blogger.com/atom/ns#" term="StableDiffusion"/><title type="text">&#x6bcd;&#x89aa;&#x7bc0;&#x5feb;&#x6a02;~ Stable Diffusion Latent Couple&#x7df4;&#x7fd2; : Happy Mother&apos;s Day &amp; Practice to&#xa0;Stable Diffusion Latent Couple</title><content type="html">&lt;img src=&quot;https://blogger.googleusercontent.com/img/a/AVvXsEg4RfQea-R47a7qLRGdSDhqEbZuhiJscOAr6O0USL7j5EY_SH-CDrkTzCyQubNhLoFS4FPAlLGFbGz9jzGKTSYo9rLvL_4TOONQ0_WniWCRcWqF2QUkGsmFkoTwmwWD_EBqpJiBiOZU0xLPOCh_gwvB0r4I8_bZhkw2UAbhJ4AIRJfX4MPVRWI=s1080&quot; title=&quot;2023-0514-201927.png&quot; alt=&quot;2023-0514-201927.png&quot; class=&quot;original-size&quot;&gt;
 &lt;br /&gt;&#x6bcd;&#x89aa;&#x7bc0;&#x5927;&#x5bb6;&#x90fd;&#x505a;&#x4e86;&#x4ec0;&#x9ebc;&#x5462;&#xff1f;
 &lt;br /&gt;----
@@ -594,11 +595,6 @@
 &lt;br /&gt;https://ttyusb0978.medium.com/nvidia-container-runtime-%E5%AE%89%E8%A3%9D-b5df27020762&#x3002;
 &lt;br /&gt;&#x5982;&#x679c;&#x8981;&#x8b93;Docker&#x4f7f;&#x7528;Nvidia&#x986f;&#x793a;&#x5361;&#x7684;&#x8cc7;&#x6e90;&#xff0c;&#x9700;&#x8981;&#x5b89;&#x88dd;nvidia-container-runtime&#x3002;
 &lt;br /&gt;&#x611f;&#x8b1d;&#x6f2b;&#x7121;&#x76ee;&#x7684;&#x5b78;&#x7fd2;&#x7b46;&#x8a18;&#x7684;&#x6574;&#x7406;&#xff0c;&#x5b89;&#x88dd;&#x65b9;&#x6cd5;&#x5982;&#x4e0b;&#xff1a;&#x3002;
-&lt;br /&gt;[Code...]
-&lt;br /&gt;&#x81f3;&#x6b64;&#x6211;&#x5011;&#x7b97;&#x662f;&#x505a;&#x597d;&#x8e0f;&#x5165;Stable Diffusion&#x7684;&#x6e96;&#x5099;&#x3002;
-&lt;br /&gt;----
-&lt;br /&gt;# &#x5b89;&#x88dd;Stable Diffusion Docker Web UI /&#xa0;Install Stable Diffusion Docker Web UI&#x3002;
-&lt;br /&gt;https://github.com/AbdBarho/stable-diffusion-webui-docker/&#x3002;
 &lt;br /&gt;----
 &lt;br /&gt;
 &lt;br /&gt;&#x7e7c;&#x7e8c;&#x95b1;&#x8b80; &#x21e8; &#x5728;Ubuntu&#x5b89;&#x88dd;Stable Diffusion Web UI : Install&#xa0;Stable Diffusion Web UI in Ubuntu
@@ -641,10 +637,14 @@
 &lt;br /&gt;# &#x64cd;&#x4f5c; / Controll
 &lt;br /&gt;&#x7528;rootless&#x6a21;&#x5f0f;&#x64cd;&#x4f5c;Docker&#x8ddf;&#x4e00;&#x822c;&#x7684;&#x6a21;&#x5f0f;&#x6709;&#x5f88;&#x5927;&#x7684;&#x5dee;&#x5225;&#x3002;
 &lt;br /&gt;&#x4e00;&#x822c;&#x6a21;&#x5f0f;&#x4e0b;&#xff0c;&#x91cd;&#x65b0;&#x555f;&#x52d5;Docker&#x670d;&#x52d9;&#x7684;&#x6307;&#x4ee4;&#x5982;&#x4e0b;&#xff1a;&#x3002;
-&lt;br /&gt;[Code...]
+&lt;br /&gt;````
+systemctl&#xa0;restart&#xa0;docker
+````
 &lt;br /&gt;&#x4f46;&#x5728;rootless&#x6a21;&#x5f0f;&#x5e95;&#x4e0b;&#xff0c;&#x5343;&#x842c;&#x4e0d;&#x80fd;&#x57f7;&#x884c;&#x9019;&#x500b;&#x6307;&#x4ee4;&#xff0c;&#x4e0d;&#x7136;&#x6703;&#x628a;&#x539f;&#x672c;&#x7684;&#x6a94;&#x6848;&#x6b0a;&#x9650;&#x5f04;&#x58de;&#x3002;
 &lt;br /&gt;&#x5728;rootless&#x5e95;&#x4e0b;&#x8981;&#x91cd;&#x65b0;Docker&#x670d;&#x52d9;&#xff0c;&#x6307;&#x4ee4;&#x5982;&#x4e0b;&#xff1a;&#x3002;
-&lt;br /&gt;[Code...]
+&lt;br /&gt;````
+systemctl&#xa0;--user&#xa0;restart&#xa0;docker
+````
 &lt;br /&gt;&#x6240;&#x4ee5;&#x770b;&#x5230;&#x5176;&#x4ed6;Docker&#x6559;&#x5b78;&#x7684;&#x6642;&#x5019;&#xff0c;&#x8acb;&#x52d9;&#x5fc5;&#x6ce8;&#x610f;&#x5230;&#x5169;&#x8005;&#x7684;&#x5dee;&#x5225;&#x3002;
 &lt;br /&gt;&#x5176;&#x4ed6;&#x8ddf;rootless&#x6a21;&#x5f0f;&#x76f8;&#x95dc;&#x7684;&#x6307;&#x4ee4;&#x9084;&#x6709;&#xff1a;&#x3002;
 &lt;br /&gt;- systemctl --user stop docker.service
@@ -657,10 +657,9 @@
 &lt;br /&gt;&#x5728;&#x5b89;&#x88dd;&#x4e86;rootless&#x6a21;&#x5f0f;&#x5f8c;&#xff0c;&#x901a;&#x5e38;&#x5b83;&#x6703;&#x6539;&#x6210;&#x7528;user&#x7684;&#x8eab;&#x4efd;&#x555f;&#x52d5;&#x3002;
 &lt;br /&gt;&#x4f46;&#x9084;&#x662f;&#x6709;&#x53ef;&#x80fd;&#x56e0;&#x70ba;&#x5404;&#x7a2e;&#x539f;&#x56e0;&#xff0c;&#x5c0e;&#x81f4;&#x4f60;&#x4fee;&#x6539;&#x4e86;&#x8a2d;&#x5b9a;&#xff0c;&#x4f7f;&#x5f97;Docker&#x670d;&#x52d9;&#x53c8;&#x8b8a;&#x56de;&#x539f;&#x672c;&#x4ee5;root&#x8eab;&#x4efd;&#x555f;&#x52d5;&#x7684;&#x72c0;&#x614b;&#x3002;
 &lt;br /&gt;&#x6b64;&#x6642;&#x6211;&#x5011;&#x8981;&#x5148;&#x95dc;&#x9589;&#x4ee5;root&#x8eab;&#x4efd;&#x555f;&#x52d5;&#x7684;Docker&#x670d;&#x52d9;&#xff1a;&#x3002;
-&lt;br /&gt;[Code...]
-&lt;br /&gt;&#x63a5;&#x8457;&#x4ee5;rootless&#x6a21;&#x5f0f;&#x8a2d;&#x5b9a;&#x958b;&#x6a5f;&#x555f;&#x52d5;Docker&#x670d;&#x52d9;&#xff1a;&#x3002;
-&lt;br /&gt;[Code...]
-&lt;br /&gt;## &#x4fee;&#x5fa9;&#x5132;&#x5b58;&#x7a7a;&#x9593;&#x7684;&#x6b0a;&#x9650; / Change the owner of stroage drive&#x3002;
+&lt;br /&gt;````
+sudo&#xa0;systemctl&#xa0;disable&#xa0;docker.servicesudo&#xa0;systemctl&#xa0;disable&#xa0;docker.socket
+````
 &lt;br /&gt;----
 &lt;br /&gt;
 &lt;br /&gt;&#x7e7c;&#x7e8c;&#x95b1;&#x8b80; &#x21e8; Docker&#x7684;rootless&#x6a21;&#x5f0f;&#x7279;&#x5225;&#x9ebb;&#x7169; : Take More Careful When You Running Docker in Rootless Mode
