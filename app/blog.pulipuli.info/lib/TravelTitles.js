@@ -10,5 +10,6 @@ module.exports = function ($, callback) {
     
 
     $(`entry:eq(${i}) title`).text(title)
+    $(`entry:eq(${i}) link[rel="alternate"][title]`).attr('title', title)
   })
 }
