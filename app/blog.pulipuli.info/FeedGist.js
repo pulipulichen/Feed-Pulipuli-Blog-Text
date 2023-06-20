@@ -8,7 +8,7 @@ const GetHTML = require('../lib/GetHTML.js')
 const FixThumbnail = require('./lib/FixThumbnail.js')
 const TravelTitles = require('./lib/TravelTitles.js')
 const TravelContents = require('./lib/TravelContents.js')
-const ModifyContentSimple = require('./ModifyContentSimple.js')
+const ModifyContentGist = require('./ModifyContentGist.js')
 
 const SaveXML = require('../lib/SaveXML.js')
 
@@ -30,7 +30,7 @@ module.exports = async function () {
 
   FixThumbnail($)
   TravelTitles($, modifyTitle)
-  TravelContents($, ModifyContentSimple)
+  TravelContents($, ModifyContentGist)
 
   SaveXML($, outputFilename)
 }
