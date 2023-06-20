@@ -1,6 +1,6 @@
 // const textLimit = 5000
-const textLimit = 1000
-const outputFilename = 'gist-20230621-0010.rss'
+// const textLimit = 1000
+const outputFilename = 'gist-20230621-0011.rss'
 
 // ---------
 
