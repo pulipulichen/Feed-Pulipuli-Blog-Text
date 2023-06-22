@@ -1,7 +1,7 @@
 {
-  "name": "API-Crawler-Example",
+  "name": "Feed-Pulipuli-Blog-Text",
   "version": "1.0.0",
-  "description": "An example to build a crawler by GitHub Action.",
+  "description": "Build a RSS feed from blog.pulipuli.info for social medias.",
   "main": "index.js",
   "scripts": {
     "start": "docker-compose up --build",
