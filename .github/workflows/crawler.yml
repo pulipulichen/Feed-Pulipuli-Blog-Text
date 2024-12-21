@@ -124,7 +124,7 @@ jobs:
           REPO_NAME=$(basename $GITHUB_REPOSITORY)
           echo "Repository name: $REPO_NAME"
           
-          rm -rf ./cache/
+          sudo rm -rf ./cache/
 
           rsync -av /tmp/gh-pages/ ./
 
