@@ -94,7 +94,7 @@ jobs:
       - name: Remove all history except latest commit
         run: |
           # Get the commit hash of the second-to-last commit
-          git log -n 2 --pretty=format:%H
+          echo `git log -n 2 --pretty=format:%H`
           last_commit=$(git log -n 1 --pretty=format:%H | head -n 1)
           echo $last_commit
           
