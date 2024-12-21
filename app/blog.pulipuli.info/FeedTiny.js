@@ -184,6 +184,7 @@ module.exports = async function () {
     crawler: 'xml'
   })
 
+  console.log("Processing: " + outputFilename)
   // console.log('not ok')
 
   FixThumbnail($)

@@ -222,7 +222,7 @@ module.exports = async function () {
     crawler: 'xml'
   })
 
-  // console.log('not ok')
+  console.log("Processing: " + outputFilename)
 
   FixThumbnail($)
   TravelContents($, modifyContent)
