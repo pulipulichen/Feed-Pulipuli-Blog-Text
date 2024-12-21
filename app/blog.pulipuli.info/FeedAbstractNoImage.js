@@ -183,6 +183,8 @@ let modifyContent = function ($, container, url, title) {
   // let img = $.find('img:first').parent()
   // text.unshift(img.prop('outerHTML'))
 
+  text.unshift(`# ` + title)
+
   // ------------
   
   // try {
