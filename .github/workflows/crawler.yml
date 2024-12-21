@@ -61,6 +61,10 @@ jobs:
       #     docker network prune -f
       #     docker volume prune -f
 
+      - name: Clean Output
+        run: |
+          rm -rf ./output/*
+
       # - name: Prepare Cache
       #   run: |
       #     mkdir -p cache
@@ -119,10 +123,13 @@ jobs:
           REPO_NAME=$(basename $GITHUB_REPOSITORY)
           echo "Repository name: $REPO_NAME"
           
+          rm *
+          
           rsync -av /tmp/gh-pages/ ./
 
-          rm -rf abstract-20241222-0217.rss
-          rm -rf abstract-20241222-0218.rss
+          
+          # rm -rf abstract-20241222-0217.rss
+          # rm -rf abstract-20241222-0218.rss
           ls
 
           git add .
