@@ -91,27 +91,29 @@ jobs:
 
       - name: Prepare gh-pages branch
         run: |
-          pwd
+          workdir=`pwd`
           mkdir -p /tmp/gh-pages
           cd /tmp/gh-pages
 
       - name: Fetch gh-pages branch
-        run: |
-          
-          git fetch origin gh-pages --depth=2
+        run: |          
+          git fetch origin gh-pages --depth=1
           git checkout gh-pages
-
-          ls
 
       - name: Remove all history except latest commit
         run: |
           # Get the commit hash of the second-to-last commit
-          echo `git log -n 2 --pretty=format:%H`
+          # echo `git log -n 2 --pretty=format:%H`
           last_commit=$(git log -n 1 --pretty=format:%H | head -n 1)
-          echo $last_commit
-          ls
+          # echo $last_commit
+          # ls
           
           git reset --soft $last_commit
+
+          rsync -av $workdir/output ./
+          ls
+
+          git add .
           git commit --amend -m "Keep only the latest commit: ${{ github.sha }}"
 
           git gc --aggressive --prune=now
