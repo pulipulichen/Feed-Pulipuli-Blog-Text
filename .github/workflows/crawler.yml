@@ -98,7 +98,9 @@ jobs:
       - name: Fetch gh-pages branch
         run: |          
           mkdir -p /tmp/gh-pages
-          cd /tmp/gh-pages
+          # cd /tmp/gh-pages
+
+          rsync -av ./output/ /tmp/gh-pages/
 
           git fetch origin gh-pages --depth=1
           git checkout gh-pages
@@ -118,7 +120,7 @@ jobs:
           echo "Repository name: $REPO_NAME"
           rm -rf *
 
-          rsync -av /home/runner/work/$REPO_NAME/$REPO_NAME/output/ ./
+          rsync -av /tmp/gh-pages/ ./
           ls
 
           git add .
