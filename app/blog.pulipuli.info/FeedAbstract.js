@@ -1,6 +1,6 @@
 // const textLimit = 5000
 const textLimit = 400
-const outputFilename = 'abstract-20241222-0218.rss'
+const outputFilename = 'abstract-20241222-0219.rss'
 
 // ---------
 

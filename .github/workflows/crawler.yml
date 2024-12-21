@@ -118,9 +118,11 @@ jobs:
 
           REPO_NAME=$(basename $GITHUB_REPOSITORY)
           echo "Repository name: $REPO_NAME"
-          rm -rf *
-
+          
           rsync -av /tmp/gh-pages/ ./
+
+          rm -rf abstract-20241222-0217.rss
+          rm -rf abstract-20241222-0218.rss
           ls
 
           git add .
