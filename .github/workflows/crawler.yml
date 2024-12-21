@@ -71,7 +71,10 @@ jobs:
           bash ./action/install_docker_compose.sh
           docker-compose up --quiet-pull --abort-on-container-exit
           exit
-
+      - name: Check Output 🚀
+        run: |
+          ls ./output/*
+  
       # ----------------------------------------------------------------
 
       - name: Deploy 🚀
@@ -86,8 +89,15 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
+      - name: Prepare gh-pages branch
+        run: |
+          pwd
+          mkdir -p /tmp/gh-pages
+          cd /tmp/gh-pages
+
       - name: Fetch gh-pages branch
         run: |
+          
           git fetch origin gh-pages --depth=2
           git checkout gh-pages
 
