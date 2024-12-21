@@ -101,10 +101,11 @@ jobs:
 
       - name: Fetch gh-pages branch
         run: |          
-          mkdir -p /tmp/gh-pages
+          # mkdir -p /tmp/gh-pages
           # cd /tmp/gh-pages
 
-          rsync -av ./output/ /tmp/gh-pages/
+          # rsync -av ./output/ /tmp/gh-pages/
+          mv ./output/* /tmp/gh-pages/
 
           git fetch origin gh-pages --depth=1
           git checkout gh-pages
