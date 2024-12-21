@@ -110,7 +110,9 @@ jobs:
           
           git reset --soft $last_commit
 
-          rsync -av /home/runner/work/$GITHUB_REPOSITORY/$GITHUB_REPOSITORY/output/ ./
+          REPO_NAME=$(basename $GITHUB_REPOSITORY)
+          echo "Repository name: $REPO_NAME"
+          rsync -av /home/runner/work/$REPO_NAME/$REPO_NAME/output/ ./
           ls
 
           git add .
