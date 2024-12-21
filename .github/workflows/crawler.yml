@@ -89,19 +89,23 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Prepare gh-pages branch
-        run: |
-          pwd
-          mkdir -p /tmp/gh-pages
-          cd /tmp/gh-pages
+      # - name: Prepare gh-pages branch
+      #   run: |
+      #     pwd
+      #     mkdir -p /tmp/gh-pages
+      #     cd /tmp/gh-pages
 
       - name: Fetch gh-pages branch
         run: |          
+          mkdir -p /tmp/gh-pages
+          cd /tmp/gh-pages
+
           git fetch origin gh-pages --depth=1
           git checkout gh-pages
 
       - name: Remove all history except latest commit
         run: |
+
           # Get the commit hash of the second-to-last commit
           # echo `git log -n 2 --pretty=format:%H`
           last_commit=$(git log -n 1 --pretty=format:%H | head -n 1)
@@ -112,6 +116,8 @@ jobs:
 
           REPO_NAME=$(basename $GITHUB_REPOSITORY)
           echo "Repository name: $REPO_NAME"
+          rm -rf *
+
           rsync -av /home/runner/work/$REPO_NAME/$REPO_NAME/output/ ./
           ls
 
