@@ -123,8 +123,8 @@ jobs:
           REPO_NAME=$(basename $GITHUB_REPOSITORY)
           echo "Repository name: $REPO_NAME"
           
-          rm *
-          
+          rm -rf *
+
           rsync -av /tmp/gh-pages/ ./
 
           
