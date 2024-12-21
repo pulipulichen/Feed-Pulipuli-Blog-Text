@@ -91,7 +91,7 @@ jobs:
 
       - name: Prepare gh-pages branch
         run: |
-          workdir=`pwd`
+          pwd
           mkdir -p /tmp/gh-pages
           cd /tmp/gh-pages
 
@@ -110,7 +110,7 @@ jobs:
           
           git reset --soft $last_commit
 
-          rsync -av "$workdir/output/" ./
+          rsync -av /home/runner/work/$GITHUB_REPOSITORY/$GITHUB_REPOSITORY/output/" ./
           ls
 
           git add .
