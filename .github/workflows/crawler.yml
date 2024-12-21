@@ -110,7 +110,7 @@ jobs:
           
           git reset --soft $last_commit
 
-          rsync -av /home/runner/work/$GITHUB_REPOSITORY/$GITHUB_REPOSITORY/output/" ./
+          rsync -av /home/runner/work/$GITHUB_REPOSITORY/$GITHUB_REPOSITORY/output/ ./
           ls
 
           git add .
