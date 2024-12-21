@@ -210,6 +210,7 @@ let modifyContent = function ($, container, url, title) {
   text = text.filter(t => (t + '').trim() !== '')
 
   text = text.join('\n')
+  text = (new Date()) + text
   //console.log(text)
 
   // text = '<textarea>' + $.html() + '</textarea>' + text
