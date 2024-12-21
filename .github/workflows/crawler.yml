@@ -93,16 +93,16 @@ jobs:
 
       - name: Remove all history except latest commit
         run: |
-          git checkout --orphan temp_branch
-
-          git cherry-pick HEAD~1
-          git cherry-pick HEAD~2
-
-          git branch -D gh-pages
-          git branch -m gh-pages
-
-          git push --force
-
-          # git gc --aggressive --prune=now
+          # Get the commit hash of the second-to-last commit
+          second_to_last_commit=$(git log -n 2 --pretty=format:%H | head -n 1)
           
-          # git push --force origin gh-pages
+          # Check if the commit hash is found
+          if [ -z "$second_to_last_commit" ]; then
+            echo "Error: Less than two commits found in history."
+            exit 1
+          fi
+          
+          # Reset to the second-to-last commit
+          git reset --hard "$second_to_last_commit"
+          
+          echo "Successfully reset to the second-to-last commit."
