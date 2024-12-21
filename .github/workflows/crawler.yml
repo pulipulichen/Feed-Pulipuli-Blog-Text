@@ -88,17 +88,17 @@ jobs:
 
       - name: Fetch gh-pages branch
         run: |
-          git fetch origin gh-pages --depth=1
+          git fetch origin gh-pages --depth=2
           git checkout gh-pages
 
       - name: Remove all history except latest commit
         run: |
           # Get the commit hash of the second-to-last commit
           git log -n 2 --pretty=format:%H
-          second_to_last_commit=$(git log -n 1 --pretty=format:%H | head -n 1)
-          echo $second_to_last_commit
+          last_commit=$(git log -n 1 --pretty=format:%H | head -n 1)
+          echo $last_commit
           
-          git reset --soft $second_to_last_commit
+          git reset --soft $last_commit
           git commit --amend -m "Keep only the latest commit: ${{ github.sha }}"
 
           git gc --aggressive --prune=now
