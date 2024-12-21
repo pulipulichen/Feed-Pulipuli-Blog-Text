@@ -110,7 +110,7 @@ jobs:
           
           git reset --soft $last_commit
 
-          rsync -av $workdir/output ./
+          rsync -av "$workdir/output/" ./
           ls
 
           git add .
