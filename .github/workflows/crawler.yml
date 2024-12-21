@@ -29,8 +29,10 @@ jobs:
         env:
           cache-name: cache
         with:
-          path: cache
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('cache/trigger.txt') }}
+          path: |
+            cache
+            output
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ github.run_id }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
@@ -59,14 +61,15 @@ jobs:
       #     docker network prune -f
       #     docker volume prune -f
 
-      - name: Prepare Cache
-        run: |
-          mkdir -p cache
-          echo `date` > cache/trigger.txt
+      # - name: Prepare Cache
+      #   run: |
+      #     mkdir -p cache
+      #     echo `date` > cache/trigger.txt
 
       - name: main
         run: |
-          docker-compose up
+          docker-compose up --quiet-pull --abort-on-container-exit
+          exit
 
       # ----------------------------------------------------------------
 
@@ -74,3 +77,25 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: output # The folder the action should deploy.
+
+      # ----------------------------------------------------------------
+
+      - name: Set up Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Fetch gh-pages branch
+        run: |
+          git fetch origin gh-pages --depth=1
+          git checkout gh-pages
+
+      - name: Remove all history except latest commit
+        run: |
+          latest_commit=$(git rev-parse HEAD)
+          git reset --soft $latest_commit
+          git commit --amend -m "Keep only the latest commit: ${{ github.sha }}"
+
+          git gc --aggressive --prune=now
+          
+          git push --force origin gh-pages

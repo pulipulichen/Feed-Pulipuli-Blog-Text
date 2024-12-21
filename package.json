@@ -6,7 +6,9 @@
   "scripts": {
     "start": "docker-compose up --build",
     "up": "docker-compose up",
-    "build-up": "docker-compose up --build"
+    "build-up": "docker-compose up --build",
+    "build": "docker-compose build",
+    "bash": "docker-compose run app bash"
   },
   "repository": {
     "type": "git",
@@ -22,5 +24,6 @@
   },
   "homepage": "https://github.com/pulipulichen/API-Crawler-Example#readme",
   "dependencies": {
+    "gtts": "0.2.1"
   }
 }

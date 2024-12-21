@@ -22,3 +22,6 @@ RUN npm link cheerio@1.0.0-rc.12
 RUN npm link htmlentities@1.0.0
 
 CMD ["node", "/app/index.js"]
+
+RUN rm -f /etc/apt/sources.list.d/*
+RUN apt-get update
