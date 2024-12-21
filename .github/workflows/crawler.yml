@@ -9,7 +9,7 @@ permissions:
 jobs:
   build-and-deploy:
     concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       # ----------------------------------------------------------------
       
@@ -17,9 +17,9 @@ jobs:
         uses: actions/checkout@v3
       # ----------------------------------------------------------------
 
-      - uses: satackey/action-docker-layer-caching@v0.0.11
-        # Ignore the failure of a step and avoid terminating the job.
-        continue-on-error: true
+      # - uses: satackey/action-docker-layer-caching@v0.0.11
+      #   # Ignore the failure of a step and avoid terminating the job.
+      #   continue-on-error: true
 
       # ----------------------------------------------------------------
 
@@ -68,13 +68,14 @@ jobs:
 
       - name: main
         run: |
-          docker-compose up --quiet-pull --abort-on-container-exit
+          bash ./action/install_docker_compose.sh
+          docker-compose up --abort-on-container-exit
           exit
 
       # ----------------------------------------------------------------
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: JamesIves/github-pages-deploy-action@v4.6.5
         with:
           folder: output # The folder the action should deploy.
 
