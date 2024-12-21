@@ -69,7 +69,7 @@ jobs:
       - name: main
         run: |
           bash ./action/install_docker_compose.sh
-          docker-compose up --abort-on-container-exit --quiet-pull
+          docker-compose up --quiet-pull --abort-on-container-exit
           exit
 
       # ----------------------------------------------------------------
@@ -95,14 +95,11 @@ jobs:
         run: |
           # Get the commit hash of the second-to-last commit
           second_to_last_commit=$(git log -n 2 --pretty=format:%H | head -n 1)
+          echo $second_to_last_commit
           
-          # Check if the commit hash is found
-          if [ -z "$second_to_last_commit" ]; then
-            echo "Error: Less than two commits found in history."
-            exit 1
-          fi
+          git reset --soft $second_to_last_commit
+          git commit --amend -m "Keep only the latest commit: ${{ github.sha }}"
+
+          git gc --aggressive --prune=now
           
-          # Reset to the second-to-last commit
-          git reset --hard "$second_to_last_commit"
-          
-          echo "Successfully reset to the second-to-last commit."
+          git push --force origin gh-pages
