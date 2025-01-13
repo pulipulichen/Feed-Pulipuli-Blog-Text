@@ -1,5 +1,5 @@
 // const textLimit = 5000
-const textLimit = 400
+const textLimit = 350
 const outputFilename = 'abstract-noimg-20241222-0221.rss'
 
 // ---------
