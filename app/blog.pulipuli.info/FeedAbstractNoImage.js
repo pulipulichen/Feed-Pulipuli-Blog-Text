@@ -1,6 +1,6 @@
 // const textLimit = 5000
-const textLimit = 350
-const outputFilename = 'abstract-noimg-20241222-0221.rss'
+const textLimit = 300
+const outputFilename = 'abstract-noimg-20250114-0556.rss'
 
 // ---------
 
@@ -216,7 +216,7 @@ let modifyContent = function ($, container, url, title) {
 
   text = text.join('\n')
   // text = text.unshift((new Date()))
-  //console.log(text)
+  // console.log("長度: " + text.length)
 
   // text = '<textarea>' + $.html() + '</textarea>' + text
   // text = code + '|' + text
