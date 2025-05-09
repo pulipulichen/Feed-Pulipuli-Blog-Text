@@ -73,7 +73,7 @@ jobs:
       - name: main
         run: |
           bash ./action/install_docker_compose.sh
-          docker-compose up --quiet-pull --abort-on-container-exit
+          docker compose up --quiet-pull --abort-on-container-exit
           exit
       - name: Check Output 🚀
         run: |
